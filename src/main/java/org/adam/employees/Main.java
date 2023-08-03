@@ -31,34 +31,20 @@ public class Main {
         Matcher peopleMat = peoplePat.matcher(peopleText);
 
         int totalSalaries = 0;
+        Employee employee = null;
         while (peopleMat.find()) {
-            totalSalaries += switch (peopleMat.group("role")) {
-                case "Analyst" -> {
-                    Analyst analyst = new Analyst(peopleMat.group());
-                    System.out.println(analyst.toString());
-                    yield analyst.getSalary();
-                }
-                case "Programmer" -> {
-                    Programmer programmer = new Programmer(peopleMat.group());
-                    System.out.println(programmer.toString());
-                    yield programmer.getSalary();
-                }
-                case "Manager" -> {
-                    Manager manager = new Manager(peopleMat.group());
-                    System.out.println(manager.toString());
-                    yield manager.getSalary();
-                }
-                case "CEO" -> {
-                    CEO ceo = new CEO(peopleMat.group());
-                    System.out.println(ceo.toString());
-                    yield ceo.getSalary();
-                }
-                default -> {
-                    yield 0;
-                }
+            employee = switch (peopleMat.group("role")) {
+                case "Analyst" -> new Analyst(peopleMat.group());
+                case "Programmer" -> new Programmer(peopleMat.group());
+                case "Manager" -> new Manager(peopleMat.group());
+                case "CEO" -> new CEO(peopleMat.group());
+                default -> null;
             };
+
+            System.out.println(employee);
+            totalSalaries += employee.getSalary();
         }
         NumberFormat currencyInstance = NumberFormat.getCurrencyInstance();
-        System.out.printf("The total payout should be %s%n.", currencyInstance.format(totalSalaries));
+        System.out.printf("The total payout should be %s.%n", currencyInstance.format(totalSalaries));
     }
 }
