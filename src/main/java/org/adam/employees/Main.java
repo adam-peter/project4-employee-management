@@ -12,6 +12,7 @@ public class Main {
                 Flinstone3, Wilma, 3/3/1910, Analyst, {projectCount=5}
                 Flinstone4, Wilma, 3/3/1910, Analyst, {projectCount=6}
                 Flinstone5, Wilma, 3/3/1910, Analyst, {projectCount=9}
+                Flinstone5, Wilma, 3/3/1910, Analysttttttttttt, {projectCount=9}
                 Flinstone1, Fred, 1/1/1900, Programmer, {locpd=2000,yoe=10,iq=140}
                 Flinstone2, Fred, 1/1/1900, Programmer, {locpd=1300,yoe=14,iq=100}
                 Flinstone3, Fred, 1/1/1900, Programmer, {locpd=2300,yoe=8,iq=105}
@@ -40,9 +41,11 @@ public class Main {
                 case "CEO" -> new CEO(peopleMat.group());
                 default -> null;
             };
-
-            System.out.println(employee);
-            totalSalaries += employee.getSalary();
+            //a "null check"
+            if (employee != null) {
+                System.out.println(employee);
+                totalSalaries += employee.getSalary();
+            }
         }
         NumberFormat currencyInstance = NumberFormat.getCurrencyInstance();
         System.out.printf("The total payout should be %s.%n", currencyInstance.format(totalSalaries));

@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Employee {
+public abstract class Employee {
     //PROTECTED - private to the outside world, visible to subclasses
     protected String lastName;
     protected String firstName;
@@ -27,12 +27,14 @@ public class Employee {
         }
     }
 
-    public int getSalary() {
-        return 0;
+    public abstract int getSalary();
+
+    public double getBonus() {
+        return getSalary() * 0.1;
     }
 
     @Override
     public String toString() {
-        return String.format("%s, %s: %s", lastName, firstName, moneyFormatter.format(getSalary()));
+        return String.format("%s, %s: %s, bonus: %s", lastName, firstName, moneyFormatter.format(getSalary()), moneyFormatter.format(getBonus()));
     }
 }
