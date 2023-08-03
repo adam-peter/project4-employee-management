@@ -26,9 +26,4 @@ public class CEO extends Employee {
     public int getSalary() {
         return 5000 * avgStockPrice;
     }
-
-    @Override
-    public String toString() {
-        return String.format("%s, %s: %s", lastName, firstName, moneyFormatter.format(getSalary()));
-    }
 }
