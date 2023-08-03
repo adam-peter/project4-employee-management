@@ -31,10 +31,8 @@ public class Main {
         Employee employee = null;
         while (peopleMat.find()) {
             employee = Employee.createEmployee(peopleMat.group());
-            if (employee != null) {
-                System.out.println(employee);
-                totalSalaries += employee.getSalary();
-            }
+            System.out.println(employee);
+            totalSalaries += employee.getSalary();
         }
         NumberFormat currencyInstance = NumberFormat.getCurrencyInstance();
         System.out.printf("The total payout should be %s.%n", currencyInstance.format(totalSalaries));

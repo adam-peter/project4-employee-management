@@ -19,7 +19,14 @@ public abstract class Employee {
     public static final Pattern PEOPLE_PAT = Pattern.compile(PEOPLE_REGEX);
     protected final Matcher peopleMat;
 
-    public Employee(String personText) {
+    protected Employee() {
+        peopleMat = null;
+        lastName = "N/A";
+        firstName = "N/A";
+        dob = null;
+    }
+
+    protected Employee(String personText) {
         peopleMat = Employee.PEOPLE_PAT.matcher(personText);
         if (peopleMat.find()) {
             this.lastName = peopleMat.group("lastName");
@@ -43,7 +50,7 @@ public abstract class Employee {
                 case "Programmer" -> new Programmer(employeeText);
                 case "Manager" -> new Manager(employeeText);
                 case "CEO" -> new CEO(employeeText);
-                default -> null;
+                default -> new DummyEmployee();
             };
         }
         return employee;
@@ -53,4 +60,17 @@ public abstract class Employee {
     public String toString() {
         return String.format("%s, %s: %s, bonus: %s", lastName, firstName, moneyFormatter.format(getSalary()), moneyFormatter.format(getBonus()));
     }
+
+    private static final class DummyEmployee extends Employee {
+        @Override
+        public int getSalary() {
+            return 0;
+        }
+
+//        @Override
+//        public String toString() {
+//            return "Dummy employee";
+//        }
+    }
+
 }
