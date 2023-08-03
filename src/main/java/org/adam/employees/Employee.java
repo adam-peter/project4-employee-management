@@ -14,12 +14,13 @@ public abstract class Employee {
 
     protected final NumberFormat moneyFormatter = NumberFormat.getCurrencyInstance();
     protected final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-    private final String peopleRegex = "(?<lastName>\\w+),\\s*(?<firstName>\\w+),\\s*(?<dob>\\d{1,2}/\\d{1,2}/\\d{4}),\\s*(?<role>\\w+)(?:,\\s*\\{(?<details>.*)\\})?\\n";
-    protected final Pattern peoplePat = Pattern.compile(peopleRegex);
+
+    private static final String PEOPLE_REGEX = "(?<lastName>\\w+),\\s*(?<firstName>\\w+),\\s*(?<dob>\\d{1,2}/\\d{1,2}/\\d{4}),\\s*(?<role>\\w+)(?:,\\s*\\{(?<details>.*)\\})?\\n";
+    public static final Pattern PEOPLE_PAT = Pattern.compile(PEOPLE_REGEX);
     protected final Matcher peopleMat;
 
     public Employee(String personText) {
-        peopleMat = peoplePat.matcher(personText);
+        peopleMat = Employee.PEOPLE_PAT.matcher(personText);
         if (peopleMat.find()) {
             this.lastName = peopleMat.group("lastName");
             this.firstName = peopleMat.group("firstName");
@@ -31,6 +32,21 @@ public abstract class Employee {
 
     public double getBonus() {
         return getSalary() * 0.1;
+    }
+
+    public static final Employee createEmployee(String employeeText) {
+        Matcher peopleMat = Employee.PEOPLE_PAT.matcher(employeeText);
+        Employee employee = null;
+        if (peopleMat.find()) {
+            employee = switch (peopleMat.group("role")) {
+                case "Analyst" -> new Analyst(employeeText);
+                case "Programmer" -> new Programmer(employeeText);
+                case "Manager" -> new Manager(employeeText);
+                case "CEO" -> new CEO(employeeText);
+                default -> null;
+            };
+        }
+        return employee;
     }
 
     @Override
