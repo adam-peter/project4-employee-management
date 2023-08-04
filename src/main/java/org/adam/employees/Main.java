@@ -1,6 +1,7 @@
 package org.adam.employees;
 
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 
 public class Main {
@@ -28,13 +29,18 @@ public class Main {
         Matcher peopleMat = Employee.PEOPLE_PAT.matcher(peopleText);
 
         int totalSalaries = 0;
-        Employee employee = null;
+        IEmployee employee = null;
         while (peopleMat.find()) {
             employee = Employee.createEmployee(peopleMat.group());
-            System.out.println(employee);
+            System.out.println(employee.toString());
             totalSalaries += employee.getSalary();
         }
         NumberFormat currencyInstance = NumberFormat.getCurrencyInstance();
         System.out.printf("The total payout should be %s.%n", currencyInstance.format(totalSalaries));
+
+        Weirdo larry = new Weirdo("David", "Larry", LocalDate.of(1990, 1, 1));
+        Weirdo jake = new Weirdo("Snake", "Jake");
+        jake.sayHello(larry);
+        larry.sayHello(jake);
     }
 }

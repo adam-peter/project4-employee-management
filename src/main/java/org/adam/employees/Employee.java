@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class Employee {
+public abstract class Employee implements IEmployee {
     //PROTECTED - private to the outside world, visible to subclasses
     protected String lastName;
     protected String firstName;
@@ -41,16 +41,19 @@ public abstract class Employee {
         return getSalary() * 0.1;
     }
 
-    public static final Employee createEmployee(String employeeText) {
+    //Flinstone5, Wilma, 3/3/1910, Analyst, {projectCount=9}
+    public static IEmployee createEmployee(String employeeText) {
         Matcher peopleMat = Employee.PEOPLE_PAT.matcher(employeeText);
-        Employee employee = null;
+        IEmployee employee = null;
         if (peopleMat.find()) {
             employee = switch (peopleMat.group("role")) {
                 case "Analyst" -> new Analyst(employeeText);
                 case "Programmer" -> new Programmer(employeeText);
                 case "Manager" -> new Manager(employeeText);
                 case "CEO" -> new CEO(employeeText);
-                default -> new DummyEmployee();
+                default -> () -> {
+                    return 0;
+                };
             };
         }
         return employee;
@@ -66,11 +69,5 @@ public abstract class Employee {
         public int getSalary() {
             return 0;
         }
-
-//        @Override
-//        public String toString() {
-//            return "Dummy employee";
-//        }
     }
-
 }
