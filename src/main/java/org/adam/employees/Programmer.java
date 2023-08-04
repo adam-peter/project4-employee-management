@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Programmer extends Employee {
+public class Programmer extends Employee implements Cheff {
     private int linesOfCode = 0;
     private int yearsOfExperience = 0;
     private int iq = 0;
@@ -14,6 +14,9 @@ public class Programmer extends Employee {
     private final String progRegex = "\\w+=(?<locpd>\\w+),\\w+=(?<yoe>\\w+),\\w+=(?<iq>\\w+)";
     private final Pattern progPat = Pattern.compile(progRegex);
 
+    public Programmer(){
+        super();
+    }
 
     public Programmer(String personText) {
         super(personText);
